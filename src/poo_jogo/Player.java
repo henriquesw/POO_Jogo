@@ -7,7 +7,7 @@ public class Player {
 	// Constants are Here
 	final int JUMPSPEED = -15;
 	final int MOVESPEED = 5;
-	final int GROUND = 704;
+	final int GROUND = 640;
 	
 	private int centerX = 100;
 	private int centerY = GROUND;

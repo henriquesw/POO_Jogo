@@ -15,7 +15,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	private Image image, currentSprite, character, characterDown, characterJumped, background;
 	private Graphics second;
 	private URL base;
-	private static Level bg1;
+	private static Level level;
+	private Boolean hasFile = true;
 
 	@Override
 	public void init() {
@@ -34,17 +35,24 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 		// Image Setups
 		character = getImage(base, "images/player/Player_1.png");
-		characterDown = getImage(base, "data/down.png");
-		characterJumped = getImage(base, "data/jumped.png");
+		characterDown = getImage(base, "images/player/Player_4.png");
+		characterJumped = getImage(base, "images/player/Player_2.png");
 		currentSprite = character;
 		background = getImage(base, "images/background/Background.png");
 	}
 
 	@Override
 	public void start() {
-		bg1 = new Level(0,0);
+		level = new Level(background);
 		player = new Player();
-
+		
+		for(int i = 0; i <= 2; i++) {
+			Image image = getImage(base, "images/tiles/tile_"+i+".png");
+			Tile tile = new Tile(image);
+			level.addTile(tile);
+		}
+		
+		level.readFile();
 
 		Thread thread = new Thread(this);
 		thread.start();
@@ -96,7 +104,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	@Override
 	public void paint(Graphics g) {
-		g.drawImage(background, 0, 0, this);
+		//g.drawImage(background, 0, 0, this);
+		level.drawLevel(g);
 		g.drawImage(currentSprite, player.getCenterX(), player.getCenterY()-64, this);
 
 	}
@@ -106,7 +115,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
-			System.out.println("Move up");
+			player.jump();
 			break;
 
 		case KeyEvent.VK_DOWN:
@@ -127,10 +136,6 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			player.setMovingRight(true);
 			break;
 
-		case KeyEvent.VK_SPACE:
-			player.jump();
-			break;
-
 		}
 
 	}
@@ -139,7 +144,6 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
-			System.out.println("Stop moving up");
 			break;
 
 		case KeyEvent.VK_DOWN:
@@ -155,9 +159,6 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			player.stopRight();
 			break;
 
-		case KeyEvent.VK_SPACE:
-			break;
-
 		}
 
 	}
@@ -169,7 +170,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	}
 
 	public static Level getBg1() {
-		return bg1;
+		return level;
 	}
 
 
