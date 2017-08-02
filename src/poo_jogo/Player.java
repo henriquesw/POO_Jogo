@@ -1,16 +1,17 @@
 package poo_jogo;
 
-import java.awt.Graphics;
-
 public class Player {
 
 	// Constants are Here
 	final int JUMPSPEED = -15;
+	final int GRAVITY = 1;
 	final int MOVESPEED = 5;
 	final int GROUND = 640;
 	
-	private int centerX = 100;
-	private int centerY = GROUND;
+	private int x = 64;
+	private int y = 576;
+	private int heigth = 64;
+	private int width = 48;
 	private boolean jumped = false;
 	private boolean movingLeft = false;
 	private boolean movingRight = false;
@@ -19,29 +20,70 @@ public class Player {
 	private int speedX = 0;
 	private int speedY = 1;
 	
-	public void update() {
-		// Moves Character or Scrolls Background accordingly.
+	public void update(int[][] matriz) {
+		// Moves Character
 
 		if (speedX < 0) {
-			centerX += speedX;
+			x += speedX;
 		}
 
 		if (speedX > 0) {
-			centerX += speedX;
+			x += speedX;
 		}
 
 		// Updates Y Position
-		centerY += speedY;
-		if (centerY + speedY >= GROUND) {
-			centerY = GROUND;
+		y += speedY;
+		if (y + heigth + speedY >= GROUND) {
+			y = GROUND - heigth;
 		}
 
+		int i; 
+		int j;
+		
+		if (speedY > 0) {
+			i = (y+heigth)/64;
+			j = x/64;
+			if (matriz[i][j] != 0) {
+				y = ((i-1)*64);
+				jumped = false;
+			}
+		}
+		
+		if (speedY < 0) {
+			i = y/64;
+			j = x/64;
+			if (matriz[i][j] != 0) {
+				y = ((i+1)*64);
+				speedY = 0;
+			}
+		}
+		
+		if (speedX > 0) {
+			i = y/64;
+			j = (x+width)/64;
+			if (matriz[i][j] != 0) {
+				x = ((j-1)*64)+16;
+				stopRight();
+			}
+		}
+		
+		if (speedX < 0) {
+			i = y/64;
+			j = x/64;
+			if (matriz[i][j] != 0) {
+				x = ((j+1)*64);
+				stopLeft();
+			}
+		}
+		
+		
+		
 		// Handles Jumping
 		if (jumped == true) {
 			speedY += 1;
 
-			if (centerY + speedY >= GROUND) {
-				centerY = GROUND;
+			if (y + heigth + speedY >= GROUND) {
+				y = GROUND - heigth;
 				speedY = 0;
 				jumped = false;
 			}
@@ -49,12 +91,12 @@ public class Player {
 		}
 
 		// Prevents going beyond X coordinate of 0
-		if (centerX + speedX <= 0) {
-			centerX = 0;
+		if (x + speedX <= 0) {
+			x = 0;
 		}
 		
-		if (centerX + speedX >= 1230) {
-			centerX = 1230;
+		if (x + speedX >= 1230) {
+			x = 1230;
 		}
 		
 	}
@@ -104,12 +146,12 @@ public class Player {
 
 	}
 
-	public int getCenterX() {
-		return centerX;
+	public int getX() {
+		return x;
 	}
 
-	public int getCenterY() {
-		return centerY;
+	public int getY() {
+		return y;
 	}
 
 	public boolean isJumped() {
@@ -125,11 +167,11 @@ public class Player {
 	}
 
 	public void setCenterX(int centerX) {
-		this.centerX = centerX;
+		this.x = centerX;
 	}
 
 	public void setCenterY(int centerY) {
-		this.centerY = centerY;
+		this.y = centerY;
 	}
 
 	public void setJumped(boolean jumped) {

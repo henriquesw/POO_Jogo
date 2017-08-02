@@ -16,7 +16,6 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	private Graphics second;
 	private URL base;
 	private static Level level;
-	private Boolean hasFile = true;
 
 	@Override
 	public void init() {
@@ -71,7 +70,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	@Override
 	public void run() {
 		while (true) {
-			player.update();
+			player.update(level.getMatriz());
 			if (player.isJumped()){
 				currentSprite = characterJumped;
 			}else if (player.isJumped() == false && player.isDucked() == false){
@@ -104,9 +103,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	@Override
 	public void paint(Graphics g) {
-		//g.drawImage(background, 0, 0, this);
 		level.drawLevel(g);
-		g.drawImage(currentSprite, player.getCenterX(), player.getCenterY()-64, this);
+		g.drawImage(currentSprite, player.getX(), player.getY(), this);
 
 	}
 

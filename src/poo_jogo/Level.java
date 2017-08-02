@@ -20,7 +20,7 @@ public class Level {
 		background = bg;
 	}
 	
-	public void update(Player player) {
+	public void update() {
 		
 	}
 
