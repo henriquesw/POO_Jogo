@@ -12,7 +12,7 @@ import java.net.URL;
 public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	private Player player;
-	private Image image, currentSprite, character, characterDown, characterJumped, background;
+	private Image image, currentSprite, character, characterDown, characterJumped, characterRight, characterLeft, background;
 	private Graphics second;
 	private URL base;
 	private static Level level;
@@ -34,6 +34,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 		// Image Setups
 		character = getImage(base, "images/player/Player_1.png");
+		characterRight = getImage(base, "images/player/Player_Direita.gif");
+		characterLeft = getImage(base, "images/player/Player_Esquerda.gif");
 		characterDown = getImage(base, "images/player/Player_4.png");
 		characterJumped = getImage(base, "images/player/Player_2.png");
 		currentSprite = character;
@@ -73,11 +75,6 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	public void run() {
 		while (true) {
 			player.update(level);
-			if (player.isJumped()){
-				currentSprite = characterJumped;
-			}else if (player.isJumped() == false && player.isDucked() == false){
-				currentSprite = character;
-			}
 			if (player.getEnded()) {
 				level.readFile();
 				player.setX(level.getStartX());
@@ -122,6 +119,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			player.jump();
+			currentSprite = characterJumped;
 			break;
 
 		case KeyEvent.VK_DOWN:
@@ -135,11 +133,13 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		case KeyEvent.VK_LEFT:
 			player.moveLeft();
 			player.setMovingLeft(true);
+			currentSprite = characterLeft;
 			break;
 
 		case KeyEvent.VK_RIGHT:
 			player.moveRight();
 			player.setMovingRight(true);
+			currentSprite = characterRight;
 			break;
 
 		}
@@ -150,6 +150,13 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
+			if (player.isMovingRight()) {
+				currentSprite = characterRight;
+			} else if (player.isMovingLeft()) {
+				currentSprite = characterLeft;
+			} else {
+				currentSprite = character;
+			}
 			break;
 
 		case KeyEvent.VK_DOWN:
@@ -159,10 +166,12 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 		case KeyEvent.VK_LEFT:
 			player.stopLeft();
+			currentSprite = character;
 			break;
 
 		case KeyEvent.VK_RIGHT:
 			player.stopRight();
+			currentSprite = character;
 			break;
 
 		}
