@@ -52,6 +52,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		}
 		
 		level.readFile();
+		player.setX(level.getStartX());
+		player.setY(level.getStartY());
 
 		Thread thread = new Thread(this);
 		thread.start();
@@ -70,11 +72,17 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	@Override
 	public void run() {
 		while (true) {
-			player.update(level.getMatriz());
+			player.update(level);
 			if (player.isJumped()){
 				currentSprite = characterJumped;
 			}else if (player.isJumped() == false && player.isDucked() == false){
 				currentSprite = character;
+			}
+			if (player.getEnded()) {
+				level.readFile();
+				player.setX(level.getStartX());
+				player.setY(level.getStartY());
+				player.setEnded(false);
 			}
 			repaint();
 			try {
@@ -170,9 +178,5 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	public static Level getBg1() {
 		return level;
 	}
-
-
-
-	
 
 }

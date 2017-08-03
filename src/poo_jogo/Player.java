@@ -4,23 +4,23 @@ public class Player {
 
 	// Constants are Here
 	final int JUMPSPEED = -15;
-	final int GRAVITY = 1;
 	final int MOVESPEED = 5;
 	final int GROUND = 640;
 	
-	private int x = 64;
-	private int y = 576;
+	private int x;
+	private int y;
 	private int heigth = 64;
 	private int width = 48;
 	private boolean jumped = false;
 	private boolean movingLeft = false;
 	private boolean movingRight = false;
 	private boolean ducked = false;
+	private boolean ended = false;
 
 	private int speedX = 0;
 	private int speedY = 1;
 	
-	public void update(int[][] matriz) {
+	public void update(Level level) {
 		// Moves Character
 
 		if (speedX < 0) {
@@ -33,20 +33,36 @@ public class Player {
 
 		// Updates Y Position
 		y += speedY;
-		if (y + heigth + speedY >= GROUND) {
-			y = GROUND - heigth;
-		}
 
 		int i; 
 		int j;
+		Boolean test;
+		int matriz[][] = level.getMatriz();
 		
-		if (speedY > 0) {
+		try {
+		if (speedY >= 0) {
+			test = true;
 			i = (y+heigth)/64;
 			j = x/64;
+			
 			if (matriz[i][j] != 0) {
 				y = ((i-1)*64);
+				speedY = 0;
 				jumped = false;
+				test = false;
 			}
+			i = (y+heigth)/64;
+			j = (x+width-4)/64;
+			if (matriz[i][j] != 0) {
+				y = ((i-1)*64);
+				speedY = 0;
+				jumped = false;
+				test = false;
+			}
+			if (test) {
+				jumped = true;
+			}
+			
 		}
 		
 		if (speedY < 0) {
@@ -75,19 +91,15 @@ public class Player {
 				stopLeft();
 			}
 		}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("fora da area");
+		}
 		
 		
 		
 		// Handles Jumping
 		if (jumped == true) {
 			speedY += 1;
-
-			if (y + heigth + speedY >= GROUND) {
-				y = GROUND - heigth;
-				speedY = 0;
-				jumped = false;
-			}
-
 		}
 
 		// Prevents going beyond X coordinate of 0
@@ -95,8 +107,13 @@ public class Player {
 			x = 0;
 		}
 		
-		if (x + speedX >= 1230) {
-			x = 1230;
+		if (x + speedX >= 1280) {
+			ended = true;
+		}
+		
+		if(y+speedY >= 768) {
+			x = level.getStartX();
+			y = level.getStartY();
 		}
 		
 	}
@@ -166,12 +183,12 @@ public class Player {
 		return speedY;
 	}
 
-	public void setCenterX(int centerX) {
-		this.x = centerX;
+	public void setX(int x) {
+		this.x = x;
 	}
 
-	public void setCenterY(int centerY) {
-		this.y = centerY;
+	public void setY(int y) {
+		this.y = y;
 	}
 
 	public void setJumped(boolean jumped) {
@@ -210,4 +227,12 @@ public class Player {
 		this.movingLeft = movingLeft;
 	}
 
+	public void setEnded(boolean ended) {
+		this.ended = ended;
+	}
+	
+	public boolean getEnded() {
+		return ended;
+	}
+	
 }
