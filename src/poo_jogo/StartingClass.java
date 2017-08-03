@@ -33,11 +33,11 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		}
 
 		// Image Setups
-		character = getImage(base, "images/player/Player_1.png");
+		character = getImage(base, "images/player/Player.png");
 		characterRight = getImage(base, "images/player/Player_Direita.gif");
 		characterLeft = getImage(base, "images/player/Player_Esquerda.gif");
 		characterDown = getImage(base, "images/player/Player_4.png");
-		characterJumped = getImage(base, "images/player/Player_2.png");
+		characterJumped = getImage(base, "images/player/Player_Pulando.png");
 		currentSprite = character;
 		background = getImage(base, "images/background/Background.png");
 	}
