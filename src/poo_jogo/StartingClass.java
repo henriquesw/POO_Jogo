@@ -8,10 +8,12 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	private Player player;
+	
 	private Image image, currentSprite, character, characterDown, characterJumped, characterRight, characterLeft, background;
 	private Graphics second;
 	private URL base;

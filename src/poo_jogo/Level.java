@@ -16,6 +16,7 @@ public class Level {
 	private int startX, startY;
 	
 	private ArrayList<Tile> tiles = new ArrayList<>();
+	private ArrayList<Enemy> enemys = new ArrayList<>();
 	
 	public Level(Image bg){
 		background = bg;
