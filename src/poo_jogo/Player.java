@@ -34,16 +34,39 @@ public class Player {
 		// Updates Y Position
 		y += speedY;
 
+		collision(level.getMatriz());
+		
+		// Handles Jumping
+		if (jumped == true) {
+			speedY += 1;
+		}
+
+		// Prevents going beyond X coordinate of 0
+		if (x + speedX <= 0) {
+			x = 0;
+		}
+		
+		if (x + speedX >= 1280) {
+			ended = true;
+		}
+		
+		if(y+speedY >= 768) {
+			x = level.getStartX();
+			y = level.getStartY();
+		}
+		
+	}
+	
+	private void collision(int matriz[][]) {
 		int i; 
 		int j;
 		Boolean test;
-		int matriz[][] = level.getMatriz();
 		
 		try {
 		if (speedY >= 0) {
 			test = true;
 			i = (y+heigth)/64;
-			j = x/64;
+			j = (x+8)/64;
 			
 			if (matriz[i][j] != 0) {
 				y = ((i-1)*64);
@@ -52,7 +75,7 @@ public class Player {
 				test = false;
 			}
 			i = (y+heigth)/64;
-			j = (x+width-4)/64;
+			j = (x+width-12)/64;
 			if (matriz[i][j] != 0) {
 				y = ((i-1)*64);
 				speedY = 0;
@@ -76,46 +99,24 @@ public class Player {
 		
 		if (speedX > 0) {
 			i = y/64;
-			j = (x+width)/64;
+			j = (x+width-8)/64;
 			if (matriz[i][j] != 0) {
-				x = ((j-1)*64)+16;
+				x = ((j-1)*64)+24;
 				stopRight();
 			}
 		}
 		
 		if (speedX < 0) {
 			i = y/64;
-			j = x/64;
+			j = (x+8)/64;
 			if (matriz[i][j] != 0) {
-				x = ((j+1)*64);
+				x = ((j+1)*64)-8;
 				stopLeft();
 			}
 		}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("fora da area");
+			
 		}
-		
-		
-		
-		// Handles Jumping
-		if (jumped == true) {
-			speedY += 1;
-		}
-
-		// Prevents going beyond X coordinate of 0
-		if (x + speedX <= 0) {
-			x = 0;
-		}
-		
-		if (x + speedX >= 1280) {
-			ended = true;
-		}
-		
-		if(y+speedY >= 768) {
-			x = level.getStartX();
-			y = level.getStartY();
-		}
-		
 	}
 
 	public void moveRight() {
