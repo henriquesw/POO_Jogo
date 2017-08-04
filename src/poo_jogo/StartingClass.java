@@ -13,9 +13,11 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	private Player player;
 	private Image image, currentSprite, character, characterDown, characterJumped, characterRight, characterLeft, background;
+	private Image storyImg;
 	private Graphics second;
 	private URL base;
 	private static Level level;
+	private Story story;
 
 	@Override
 	public void init() {
@@ -25,7 +27,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		setFocusable(true);
 		addKeyListener(this);
 		Frame frame = (Frame) this.getParent().getParent();
-		frame.setTitle("Plataforma");
+		frame.setTitle("Lost in the world");
 		try {
 			base = getDocumentBase();
 		} catch (Exception e) {
@@ -40,18 +42,23 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		characterJumped = getImage(base, "images/player/Player_Pulando.png");
 		currentSprite = character;
 		background = getImage(base, "images/background/Background.png");
+		storyImg = getImage(base, "images/story/Story_1.png");
 	}
 
 	@Override
 	public void start() {
 		level = new Level(background);
 		player = new Player();
+		story = new Story();
 		
 		for(int i = 0; i <= 2; i++) {
 			Image image = getImage(base, "images/tiles/tile_"+i+".png");
 			Tile tile = new Tile(image);
 			level.addTile(tile);
 		}
+		
+		story.addImage(storyImg);
+		story.setCurrentStory();
 		
 		level.readFile();
 		player.setX(level.getStartX());
@@ -110,7 +117,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	public void paint(Graphics g) {
 		level.drawLevel(g);
 		g.drawImage(currentSprite, player.getX(), player.getY(), this);
-
+		g.drawImage(story.getCurrentStory(), 0, 0, this);
 	}
 
 	@Override
