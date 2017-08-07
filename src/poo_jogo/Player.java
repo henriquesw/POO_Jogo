@@ -63,6 +63,7 @@ public class Player {
 		Boolean test;
 		
 		try {
+		//colisão pular para baixo
 		if (speedY >= 0) {
 			test = true;
 			i = (y+heigth)/64;
@@ -87,16 +88,16 @@ public class Player {
 			}
 			
 		}
-		
+		// colisão pulo para cima
 		if (speedY < 0) {
 			i = y/64;
-			j = x/64;
+			j = (x+12)/64;
 			if (matriz[i][j] != 0) {
 				y = ((i+1)*64);
 				speedY = 0;
 			}
 		}
-		
+		//andar direita
 		if (speedX > 0) {
 			i = y/64;
 			j = (x+width-8)/64;
@@ -105,7 +106,7 @@ public class Player {
 				stopRight();
 			}
 		}
-		
+		//andar esquerda
 		if (speedX < 0) {
 			i = y/64;
 			j = (x+8)/64;
