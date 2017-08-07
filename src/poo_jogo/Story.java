@@ -23,10 +23,9 @@ public class Story implements Runnable {
 		return currentStory;
 	}
 
-	
-	
 	@Override
 	public void run() {
+		pause = true;
 		setCurrentStory(1);
 		try {
 			Thread.sleep(3000);
@@ -34,18 +33,10 @@ public class Story implements Runnable {
 			e.printStackTrace();
 		}
 		setCurrentStory(0);
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		setCurrentStory(1);
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		setCurrentStory(0);
+		pause = false;
 	}
 	
+	public boolean getPause() {
+		return pause;
+	}
 }

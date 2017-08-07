@@ -1,5 +1,8 @@
 package poo_jogo;
 
+import java.awt.Image;
+import java.util.ArrayList;
+
 public class Player {
 
 	// Constants are Here
@@ -16,6 +19,9 @@ public class Player {
 	private boolean movingRight = false;
 	private boolean ducked = false;
 	private boolean ended = false;
+	
+	private ArrayList<Image> images = new ArrayList<>();
+	private Image currentImage;
 
 	private int speedX = 0;
 	private int speedY = 1;
@@ -48,6 +54,8 @@ public class Player {
 		
 		if (x + speedX >= 1280) {
 			ended = true;
+			stopRight();
+			setCurrentImage(0);
 		}
 		
 		if(y+speedY >= 768) {
@@ -237,4 +245,15 @@ public class Player {
 		return ended;
 	}
 	
+	public void add(Image image) {
+		images.add(image);
+	}
+	
+	public void setCurrentImage(int i) {
+		currentImage = images.get(i);
+	}
+	
+	public Image getCurrentImage() {
+		return currentImage;
+	}
 }

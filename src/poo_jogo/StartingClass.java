@@ -33,8 +33,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-
-		loadImages();
+		background = getImage(base, "images/background/Background.png");
 		
 	}
 	
@@ -44,8 +43,12 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		characterLeft = getImage(base, "images/player/Player_Esquerda.gif");
 		characterDown = getImage(base, "images/player/Player_4.png");
 		characterJumped = getImage(base, "images/player/Player_Pulando.png");
-		currentSprite = character;
-		background = getImage(base, "images/background/Background.png");
+		player.add(character);
+		player.add(characterRight);
+		player.add(characterLeft);
+		player.add(characterJumped);
+		player.add(characterDown);
+		player.setCurrentImage(0);
 	}
 
 	@Override
@@ -54,10 +57,13 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		player = new Player();
 		story = new Story();
 		
+		loadImages();
 		loadTiles();
 		loadStory();
 		
 		story.setCurrentStory(0);
+		Thread threadStory = new Thread(story);
+		threadStory.start();
 		
 		level.readFile();
 		player.setX(level.getStartX());
@@ -65,9 +71,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 		Thread thread = new Thread(this);
 		thread.start();
-		Thread threadStory = new Thread(story);
-		threadStory.start();
-	}
+		}
 	
 	private void loadTiles() {
 		for(int i = 0; i <= 2; i++) {
@@ -100,6 +104,8 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			player.update(level);
 			if (player.getEnded()) {
 				level.readFile();
+				Thread threadStory = new Thread(story);
+				threadStory.start();
 				player.setX(level.getStartX());
 				player.setY(level.getStartY());
 				player.setEnded(false);
@@ -132,21 +138,22 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	@Override
 	public void paint(Graphics g) {
 		level.drawLevel(g);
-		g.drawImage(currentSprite, player.getX(), player.getY(), this);
+		g.drawImage(player.getCurrentImage(), player.getX(), player.getY(), this);
 		g.drawImage(story.getCurrentStory(), 0, 0, this);
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 
+		if(!story.getPause()) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			player.jump();
-			currentSprite = characterJumped;
+			player.setCurrentImage(3);
 			break;
 
 		case KeyEvent.VK_DOWN:
-			currentSprite = characterDown;
+			player.setCurrentImage(4);
 			if (player.isJumped() == false){
 				player.setDucked(true);
 				player.setSpeedX(0);
@@ -156,45 +163,47 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		case KeyEvent.VK_LEFT:
 			player.moveLeft();
 			player.setMovingLeft(true);
-			currentSprite = characterLeft;
+			player.setCurrentImage(2);
 			break;
 
 		case KeyEvent.VK_RIGHT:
 			player.moveRight();
 			player.setMovingRight(true);
-			currentSprite = characterRight;
+			player.setCurrentImage(1);
 			break;
 
+		}
 		}
 
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			if (player.isMovingRight()) {
-				currentSprite = characterRight;
+				player.setCurrentImage(1);
 			} else if (player.isMovingLeft()) {
-				currentSprite = characterLeft;
+				player.setCurrentImage(2);
 			} else {
-				currentSprite = character;
+				player.setCurrentImage(0);
 			}
 			break;
 
 		case KeyEvent.VK_DOWN:
-			currentSprite = character;
+			player.setCurrentImage(0);
 			player.setDucked(false);
 			break;
 
 		case KeyEvent.VK_LEFT:
 			player.stopLeft();
-			currentSprite = character;
+			player.setCurrentImage(0);
 			break;
 
 		case KeyEvent.VK_RIGHT:
 			player.stopRight();
-			currentSprite = character;
+			player.setCurrentImage(0);
 			break;
 
 		}
