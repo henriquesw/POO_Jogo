@@ -13,9 +13,11 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	private Player player;
 	private Image image, currentSprite, character, characterDown, characterJumped, characterRight, characterLeft, background;
+	private Image storyImg;
 	private Graphics second;
 	private URL base;
-	private static Level level;
+	private Level level;
+	private Story story;
 
 	@Override
 	public void init() {
@@ -25,14 +27,18 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		setFocusable(true);
 		addKeyListener(this);
 		Frame frame = (Frame) this.getParent().getParent();
-		frame.setTitle("Plataforma");
+		frame.setTitle("Lost in the world");
 		try {
 			base = getDocumentBase();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 
-		// Image Setups
+		loadImages();
+		
+	}
+	
+	private void loadImages() {
 		character = getImage(base, "images/player/Player.png");
 		characterRight = getImage(base, "images/player/Player_Direita.gif");
 		characterLeft = getImage(base, "images/player/Player_Esquerda.gif");
@@ -46,12 +52,12 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	public void start() {
 		level = new Level(background);
 		player = new Player();
+		story = new Story();
 		
-		for(int i = 0; i <= 2; i++) {
-			Image image = getImage(base, "images/tiles/tile_"+i+".png");
-			Tile tile = new Tile(image);
-			level.addTile(tile);
-		}
+		loadTiles();
+		loadStory();
+		
+		story.setCurrentStory(0);
 		
 		level.readFile();
 		player.setX(level.getStartX());
@@ -59,6 +65,23 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 		Thread thread = new Thread(this);
 		thread.start();
+		Thread threadStory = new Thread(story);
+		threadStory.start();
+	}
+	
+	private void loadTiles() {
+		for(int i = 0; i <= 2; i++) {
+			Image image = getImage(base, "images/tiles/tile_"+i+".png");
+			Tile tile = new Tile(image);
+			level.addTile(tile);
+		}
+	}
+	
+	private void loadStory() {
+		for(int i = 0; i <= 1; i++)	{
+			storyImg = getImage(base, "images/story/Story_"+i+".png");
+			story.addImage(storyImg);
+		}
 	}
 
 	@Override
@@ -110,7 +133,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	public void paint(Graphics g) {
 		level.drawLevel(g);
 		g.drawImage(currentSprite, player.getX(), player.getY(), this);
-
+		g.drawImage(story.getCurrentStory(), 0, 0, this);
 	}
 
 	@Override
@@ -182,10 +205,6 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public static Level getBg1() {
-		return level;
 	}
 
 }

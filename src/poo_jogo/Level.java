@@ -11,7 +11,7 @@ public class Level {
 	
 	private int bgX, bgY;
 	private Image background;
-	int i = 1;
+	private static int nivel = 1;
 	private int matriz[][] = new int[12][20];
 	private int startX, startY;
 	
@@ -51,14 +51,14 @@ public class Level {
 	
 	public void readFile() {
 		try {
-			Scanner ler = new Scanner(new FileReader("levels/Level_"+this.i+".map"));
+			Scanner ler = new Scanner(new FileReader("levels/Level_"+this.nivel+".map"));
 			for(int i = 0; i < 12; i++)
 				for(int j = 0; j < 20; j++)
 					matriz[i][j] = ler.nextInt();
 			startX = ler.nextInt();
 			startY = ler.nextInt();
 			ler.close();
-			this.i++;
+			this.nivel++;
 		} catch (FileNotFoundException e) {
 			
 		}
@@ -77,6 +77,10 @@ public class Level {
 	
 	public int getStartY() {
 		return startY;
+	}
+	
+	public static int getNivel() {
+		return nivel;
 	}
 	
 }
