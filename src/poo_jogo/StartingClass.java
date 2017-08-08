@@ -33,15 +33,40 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		background = getImage(base, "images/background/Background.png");
 		
 	}
+
+	@Override
+	public void start() {
+		level = new Level();
+		player = new Player();
+		story = new Story();
+		
+		loadImages();
+		loadTiles();
+		loadStory();
+		
+		Image end = getImage(base, "images/end/End.png");
+		level.setEnd(end);
+		
+		story.setCurrentStory(0);
+		
+		level.readFile();
+		level.setBackground(loadBackground(Level.getNivel()-2));
+		player.setX(level.getStartX());
+		player.setY(level.getStartY());
+
+		Thread thread = new Thread(this);
+		thread.start();
+		Thread threadStory = new Thread(story);
+		threadStory.start();
+		}
 	
 	private void loadImages() {
 		character = getImage(base, "images/player/Player.png");
 		characterRight = getImage(base, "images/player/Player_Direita.gif");
 		characterLeft = getImage(base, "images/player/Player_Esquerda.gif");
-		characterDown = getImage(base, "images/player/Player_4.png");
+		characterDown = getImage(base, "images/player/Player_Abaixando.png");
 		characterJumped = getImage(base, "images/player/Player_Pulando.png");
 		player.add(character);
 		player.add(characterRight);
@@ -50,31 +75,9 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		player.add(characterDown);
 		player.setCurrentImage(0);
 	}
-
-	@Override
-	public void start() {
-		level = new Level(background);
-		player = new Player();
-		story = new Story();
-		
-		loadImages();
-		loadTiles();
-		loadStory();
-		
-		story.setCurrentStory(0);
-		Thread threadStory = new Thread(story);
-		threadStory.start();
-		
-		level.readFile();
-		player.setX(level.getStartX());
-		player.setY(level.getStartY());
-
-		Thread thread = new Thread(this);
-		thread.start();
-		}
 	
 	private void loadTiles() {
-		for(int i = 0; i <= 2; i++) {
+		for(int i = 0; i <= 3; i++) {
 			Image image = getImage(base, "images/tiles/tile_"+i+".png");
 			Tile tile = new Tile(image);
 			level.addTile(tile);
@@ -86,6 +89,11 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			storyImg = getImage(base, "images/story/Story_"+i+".png");
 			story.addImage(storyImg);
 		}
+	}
+	
+	private Image loadBackground(int i) {
+		background = getImage(base, "images/background/Background_"+i+".png");
+		return background;
 	}
 
 	@Override
@@ -104,6 +112,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			player.update(level);
 			if (player.getEnded()) {
 				level.readFile();
+				level.setBackground(loadBackground(Level.getNivel()-2));
 				Thread threadStory = new Thread(story);
 				threadStory.start();
 				player.setX(level.getStartX());
@@ -140,6 +149,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		level.drawLevel(g);
 		g.drawImage(player.getCurrentImage(), player.getX(), player.getY(), this);
 		g.drawImage(story.getCurrentStory(), 0, 0, this);
+		g.drawImage(level.getCurrentEnd(), 0, 0, this);
 	}
 
 	@Override

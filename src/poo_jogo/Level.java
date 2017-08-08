@@ -10,16 +10,13 @@ import java.util.Scanner;
 public class Level {
 	
 	private int bgX, bgY;
-	private Image background;
+	private Image background, currentEnd, end;
 	private static int nivel = 1;
 	private int matriz[][] = new int[12][20];
 	private int startX, startY;
+	private static int storyBegin, storyEnd;
 	
 	private ArrayList<Tile> tiles = new ArrayList<>();
-	
-	public Level(Image bg){
-		background = bg;
-	}
 	
 	public void update() {
 		
@@ -57,10 +54,12 @@ public class Level {
 					matriz[i][j] = ler.nextInt();
 			startX = ler.nextInt();
 			startY = ler.nextInt();
+			storyBegin = ler.nextInt();
+			storyEnd = ler.nextInt();
 			ler.close();
 			this.nivel++;
 		} catch (FileNotFoundException e) {
-			
+			setCurrentEnd();
 		}
 	}
 	
@@ -69,6 +68,22 @@ public class Level {
 		for(int i = 0; i < 12; i++)
 			for(int j = 0; j < 20; j++)
 				g.drawImage(tiles.get(matriz[i][j]).getImage(), j*64, i*64, null);
+	}
+	
+	public void setEnd(Image end) {
+		this.end = end;
+	}
+	
+	private void setCurrentEnd() {
+		currentEnd = end;
+	}
+	
+	public Image getCurrentEnd() {
+		return currentEnd;
+	}
+	
+	public void setBackground(Image image) {
+		background = image;
 	}
 	
 	public int getStartX() {
@@ -81,6 +96,14 @@ public class Level {
 	
 	public static int getNivel() {
 		return nivel;
+	}
+	
+	public static int getStoryBegin() {
+		return storyBegin;
+	}
+	
+	public static int getStoryEnd() {
+		return storyEnd;
 	}
 	
 }
