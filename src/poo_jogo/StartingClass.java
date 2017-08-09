@@ -77,7 +77,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	}
 	
 	private void loadTiles() {
-		for(int i = 0; i <= 3; i++) {
+		for(int i = 0; i <= 9; i++) {
 			Image image = getImage(base, "images/tiles/tile_"+i+".png");
 			Tile tile = new Tile(image);
 			level.addTile(tile);
@@ -85,7 +85,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	}
 	
 	private void loadStory() {
-		for(int i = 0; i <= 1; i++)	{
+		for(int i = 0; i <= 2; i++)	{
 			storyImg = getImage(base, "images/story/Story_"+i+".png");
 			story.addImage(storyImg);
 		}
