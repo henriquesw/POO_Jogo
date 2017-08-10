@@ -45,12 +45,14 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		player = new Player();
 		story = new Story();
 		
+		Image npcImg = getImage(base, "images/npc/Npc.png");
 		
-		//npc = new Npc();
+		npc = new Npc(npcImg);
 		
 		loadImages();
 		loadTiles();
 		loadStory();
+		loadSpeak();
 		
 		Image end = getImage(base, "images/end/End.png");
 		level.setEnd(end);
@@ -97,6 +99,13 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		}
 	}
 	
+	private void loadSpeak() {
+		for(int i = 0; i <= 1; i++)	{
+			Image speak = getImage(base, "images/speak/Speak_"+i+".png");
+			npc.addImage(speak);
+		}
+	}
+	
 	private Image loadBackground(int i) {
 		background = getImage(base, "images/background/Background_"+i+".png");
 		return background;
@@ -117,7 +126,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		Sound.sound1.loop();
 		while (true) {
 			player.update(level);
-			//npc.update(player.getX());
+			npc.update(player.getX());
 			if (player.getEnded()) {
 				level.readFile();
 				level.setBackground(loadBackground(Level.getNivel()-2));
@@ -129,7 +138,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			}
 			repaint();
 			try {
-				Thread.sleep(17);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -157,7 +166,9 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		level.drawLevel(g);
 		g.drawImage(player.getCurrentImage(), player.getX(), player.getY(), this);
 		g.drawImage(story.getCurrentStory(), 0, 0, this);
-		g.drawImage(level.getCurrentEnd(), 0, 0, this);
+		g.drawImage(Level.getCurrentEnd(), 0, 0, this);
+		g.drawImage(npc.getCurrentImage(), npc.getX(), npc.getY(), this);
+		g.drawImage(npc.getCurrentSpeak(), 0, 0, this);
 	}
 
 	@Override

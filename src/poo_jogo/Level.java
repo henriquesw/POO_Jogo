@@ -10,7 +10,8 @@ import java.util.Scanner;
 public class Level {
 	
 	private int bgX, bgY;
-	private Image background, currentEnd, end;
+	private Image background;
+	private static Image currentEnd, end;
 	private static int nivel = 1;
 	private int matriz[][] = new int[12][20];
 	private int startX, startY;
@@ -74,11 +75,11 @@ public class Level {
 		this.end = end;
 	}
 	
-	private void setCurrentEnd() {
+	public static void setCurrentEnd() {
 		currentEnd = end;
 	}
 	
-	public Image getCurrentEnd() {
+	public static Image getCurrentEnd() {
 		return currentEnd;
 	}
 	

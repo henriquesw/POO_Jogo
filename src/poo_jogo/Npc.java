@@ -5,9 +5,10 @@ import java.util.ArrayList;
 
 public class Npc {
 	
-	private int x, y;
+	private int x = 1024, y = 384;
 	private Image image, currentImage;
 	private Image currentSpeak;
+	private boolean end = false;
 	
 	private ArrayList<Image> imagesSpeak = new ArrayList<>();
 	
@@ -16,11 +17,12 @@ public class Npc {
 	}
 	
 	public void update(int xPlayer) {
-		if(Level.getNivel()-1 == 4) {
+		if((Level.getNivel()-1) == 4) {
 			setCurrentImage();
-			if(xPlayer + 128 == x) {
+			if(xPlayer + 128 >= x && end == false) {
 				StartingClass.setPause(true);
 				startSpeak();
+				end = true;
 			}
 		}
 	}
@@ -34,6 +36,8 @@ public class Npc {
 				
 			}
 		}
+		currentSpeak = imagesSpeak.get(0);
+		Level.setCurrentEnd();
 	}
 
 	public Image getCurrentSpeak() {
@@ -46,6 +50,18 @@ public class Npc {
 	
 	public void setCurrentImage() {
 		currentImage = image;
+	}
+	
+	public void addImage(Image imageSpeak) {
+		imagesSpeak.add(imageSpeak);
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
 	}
 	
 }
