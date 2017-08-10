@@ -138,7 +138,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 			}
 			repaint();
 			try {
-				Thread.sleep(20);
+				Thread.sleep(17);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
