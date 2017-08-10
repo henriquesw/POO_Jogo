@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Npc {
 	
-	private int x = 1088, y = 448;
+	private int x = 1088, y = 512;
 	private Image image, currentImage;
 	private Image currentSpeak;
 	private boolean end = false;

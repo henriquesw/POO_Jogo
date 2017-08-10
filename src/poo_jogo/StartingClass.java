@@ -85,7 +85,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	}
 	
 	private void loadTiles() {
-		for(int i = 0; i <= 13; i++) {
+		for(int i = 0; i <= 17; i++) {
 			Image image = getImage(base, "images/tiles/tile_"+i+".png");
 			Tile tile = new Tile(image);
 			level.addTile(tile);
@@ -167,7 +167,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		g.drawImage(player.getCurrentImage(), player.getX(), player.getY(), this);
 		g.drawImage(story.getCurrentStory(), 0, 0, this);
 		g.drawImage(npc.getCurrentImage(), npc.getX(), npc.getY(), this);
-		g.drawImage(npc.getCurrentSpeak(), 0, 0, this);
+		g.drawImage(npc.getCurrentSpeak(), 0, 64, this);
 		g.drawImage(Level.getCurrentEnd(), 0, 0, this);
 	}
 
