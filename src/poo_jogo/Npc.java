@@ -17,9 +17,9 @@ public class Npc {
 	}
 	
 	public void update(int xPlayer) {
-		if((Level.getNivel()-1) == 6) {
+		if((Level.getNivel()-1) == 5) {
 			setCurrentImage();
-			if(xPlayer + 128 >= x && end == false) {
+			if(xPlayer + 120 >= x && end == false) {
 				StartingClass.setPause(true);
 				startSpeak();
 				end = true;
@@ -28,10 +28,10 @@ public class Npc {
 	}
 	
 	private void startSpeak() {
-		for(int i = 1; i <= 1; i++) {
+		for(int i = 1; i <= 10; i++) {
 			currentSpeak = imagesSpeak.get(i);
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(3000);
 			} catch (InterruptedException e) {
 				
 			}

@@ -45,7 +45,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		player = new Player();
 		story = new Story();
 		
-		Image npcImg = getImage(base, "images/player/Player.png");
+		Image npcImg = getImage(base, "images/npc/Clarie.gif");
 		
 		npc = new Npc(npcImg);
 		
@@ -93,14 +93,14 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	}
 	
 	private void loadStory() {
-		for(int i = 0; i <= 8; i++)	{
+		for(int i = 0; i <= 17; i++)	{
 			storyImg = getImage(base, "images/story/Story_"+i+".png");
 			story.addImage(storyImg);
 		}
 	}
 	
 	private void loadSpeak() {
-		for(int i = 0; i <= 1; i++)	{
+		for(int i = 0; i <= 10; i++)	{
 			Image speak = getImage(base, "images/speak/Speak_"+i+".png");
 			npc.addImage(speak);
 		}
