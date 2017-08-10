@@ -45,7 +45,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		player = new Player();
 		story = new Story();
 		
-		Image npcImg = getImage(base, "images/player/Player.png");
+		Image npcImg = getImage(base, "images/npc/Clarie.gif");
 		
 		npc = new Npc(npcImg);
 		
