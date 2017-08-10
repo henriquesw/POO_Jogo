@@ -84,7 +84,7 @@ public class Player {
 				test = false;
 			}
 			i = (y+heigth)/64;
-			j = (x+width-12)/64;
+			j = (x+width-8)/64;
 			if (matriz[i][j] != 0) {
 				y = ((i-1)*64);
 				speedY = 0;
@@ -100,6 +100,12 @@ public class Player {
 		if (speedY < 0) {
 			i = y/64;
 			j = (x+12)/64;
+			if (matriz[i][j] != 0) {
+				y = ((i+1)*64);
+				speedY = 0;
+			}
+			i = y/64;
+			j = (x+width-8)/64;
 			if (matriz[i][j] != 0) {
 				y = ((i+1)*64);
 				speedY = 0;
