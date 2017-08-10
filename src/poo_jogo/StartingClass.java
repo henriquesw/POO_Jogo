@@ -18,7 +18,10 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	private URL base;
 	private Level level;
 	private Story story;
+	private Npc npc;
 
+	private static boolean pause = false;
+	
 	@Override
 	public void init() {
 
@@ -41,6 +44,9 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		level = new Level();
 		player = new Player();
 		story = new Story();
+		
+		
+		//npc = new Npc();
 		
 		loadImages();
 		loadTiles();
@@ -108,8 +114,10 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	@Override
 	public void run() {
+		Sound.sound1.loop();
 		while (true) {
 			player.update(level);
+			//npc.update(player.getX());
 			if (player.getEnded()) {
 				level.readFile();
 				level.setBackground(loadBackground(Level.getNivel()-2));
@@ -155,9 +163,10 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 
-		if(!story.getPause()) {
+		if(!pause) {
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_UP:
+				Sound.jump_s.play();
 				player.jump();
 				player.setCurrentImage(3);
 				break;
@@ -226,4 +235,12 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 
 	}
 
+	public static void setPause(boolean pause) {
+		StartingClass.pause = pause;
+	}
+	
+	public static boolean getPause() {
+		return pause;
+	}
+	
 }

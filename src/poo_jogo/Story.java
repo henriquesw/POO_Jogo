@@ -9,7 +9,6 @@ public class Story implements Runnable {
 	private ArrayList<Image> images = new ArrayList<>();
 	private Image currentStory;
 	private int niveis[][] = new int[3][2];
-	private boolean pause = false;
 	
 	public void addImage(Image image) {
 		images.add(image);
@@ -26,21 +25,17 @@ public class Story implements Runnable {
 	@Override
 	public void run() {
 		if(Level.getStoryBegin() != 0) {
-			pause = true;
+			StartingClass.setPause(true);
 			for(int i = Level.getStoryBegin(); i <= Level.getStoryEnd(); i++) {
 				setCurrentStory(i);
 				try {
-					Thread.sleep(4000);
+					Thread.sleep(10);
 				} catch (InterruptedException e) {
 					
 				}
 			}
 			setCurrentStory(0);
-			pause = false;
+			StartingClass.setPause(false);
 		}
-	}
-	
-	public boolean getPause() {
-		return pause;
 	}
 }
