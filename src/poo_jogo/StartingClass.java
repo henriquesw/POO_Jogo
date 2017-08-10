@@ -85,7 +85,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	}
 	
 	private void loadStory() {
-		for(int i = 0; i <= 2; i++)	{
+		for(int i = 0; i <= 8; i++)	{
 			storyImg = getImage(base, "images/story/Story_"+i+".png");
 			story.addImage(storyImg);
 		}
@@ -156,33 +156,33 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 	public void keyPressed(KeyEvent e) {
 
 		if(!story.getPause()) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_UP:
-			player.jump();
-			player.setCurrentImage(3);
-			break;
-
-		case KeyEvent.VK_DOWN:
-			player.setCurrentImage(4);
-			if (player.isJumped() == false){
-				player.setDucked(true);
-				player.setSpeedX(0);
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_UP:
+				player.jump();
+				player.setCurrentImage(3);
+				break;
+	
+			case KeyEvent.VK_DOWN:
+				player.setCurrentImage(4);
+				if (player.isJumped() == false){
+					player.setDucked(true);
+					player.setSpeedX(0);
+				}
+				break;
+	
+			case KeyEvent.VK_LEFT:
+				player.moveLeft();
+				player.setMovingLeft(true);
+				player.setCurrentImage(2);
+				break;
+	
+			case KeyEvent.VK_RIGHT:
+				player.moveRight();
+				player.setMovingRight(true);
+				player.setCurrentImage(1);
+				break;
+	
 			}
-			break;
-
-		case KeyEvent.VK_LEFT:
-			player.moveLeft();
-			player.setMovingLeft(true);
-			player.setCurrentImage(2);
-			break;
-
-		case KeyEvent.VK_RIGHT:
-			player.moveRight();
-			player.setMovingRight(true);
-			player.setCurrentImage(1);
-			break;
-
-		}
 		}
 
 	}
