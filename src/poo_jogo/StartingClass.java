@@ -45,7 +45,7 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		player = new Player();
 		story = new Story();
 		
-		Image npcImg = getImage(base, "images/npc/Npc.png");
+		Image npcImg = getImage(base, "images/player/Player.png");
 		
 		npc = new Npc(npcImg);
 		
@@ -166,9 +166,9 @@ public class StartingClass extends Applet implements Runnable, KeyListener {
 		level.drawLevel(g);
 		g.drawImage(player.getCurrentImage(), player.getX(), player.getY(), this);
 		g.drawImage(story.getCurrentStory(), 0, 0, this);
-		g.drawImage(Level.getCurrentEnd(), 0, 0, this);
 		g.drawImage(npc.getCurrentImage(), npc.getX(), npc.getY(), this);
 		g.drawImage(npc.getCurrentSpeak(), 0, 0, this);
+		g.drawImage(Level.getCurrentEnd(), 0, 0, this);
 	}
 
 	@Override

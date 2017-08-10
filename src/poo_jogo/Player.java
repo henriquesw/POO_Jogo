@@ -75,7 +75,7 @@ public class Player {
 		if (speedY >= 0) {
 			test = true;
 			i = (y+heigth)/64;
-			j = (x+8)/64;
+			j = (x+12)/64;
 			
 			if (matriz[i][j] != 0) {
 				y = ((i-1)*64);

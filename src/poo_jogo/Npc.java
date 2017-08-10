@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Npc {
 	
-	private int x = 1024, y = 384;
+	private int x = 1088, y = 448;
 	private Image image, currentImage;
 	private Image currentSpeak;
 	private boolean end = false;
@@ -17,7 +17,7 @@ public class Npc {
 	}
 	
 	public void update(int xPlayer) {
-		if((Level.getNivel()-1) == 4) {
+		if((Level.getNivel()-1) == 6) {
 			setCurrentImage();
 			if(xPlayer + 128 >= x && end == false) {
 				StartingClass.setPause(true);

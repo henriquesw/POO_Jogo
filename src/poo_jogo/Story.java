@@ -29,7 +29,7 @@ public class Story implements Runnable {
 			for(int i = Level.getStoryBegin(); i <= Level.getStoryEnd(); i++) {
 				setCurrentStory(i);
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(10);
 				} catch (InterruptedException e) {
 					
 				}
